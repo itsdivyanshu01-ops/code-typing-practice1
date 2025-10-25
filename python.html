@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Python Typing Practice</title>
+</head>
+<body>
+  <h1>Python Typing Practice</h1>
+  <pre id="code">
+def greet(name):
+    print("Hello, " + name)
+  </pre>
+
+  <textarea id="input" rows="10" cols="50" placeholder="Start typing here..."></textarea>
+  <br><br>
+  <button onclick="checkTyping()">Submit</button>
+
+  <div id="result"></div>
+
+    <script>
+  let startTime = null;
+
+  const inputBox = document.getElementById("input");
+  inputBox.addEventListener("focus", () => {
+    if (!startTime) {
+      startTime = performance.now(); // Start timer
+    }
+  });
+
+  function checkTyping() {
+    const original = document.getElementById("code").innerText;
+    const typed = inputBox.value;
+    const endTime = performance.now(); // End timer
+
+    // Accuracy
+    let correct = 0;
+    for (let i = 0; i < typed.length; i++) {
+      if (typed[i] === original[i]) correct++;
+    }
+    const accuracy = ((correct / original.length) * 100).toFixed(2);
+
+    // Time Taken
+    const timeTaken = ((endTime - startTime) / 1000).toFixed(2); // in seconds
+
+    // WPM (Words Per Minute)
+    const wordsTyped = typed.trim().split(/\s+/).length;
+    const minutes = timeTaken / 60;
+    const wpm = Math.round(wordsTyped / minutes);
+
+    // Show Results
+    document.getElementById("result").innerHTML = `
+      <h3>Results</h3>
+      <p>✅ Accuracy: ${accuracy}%</p>
+      <p>⌛ Time Taken: ${timeTaken} seconds</p>
+      <p>📈 Words Per Minute: ${wpm}</p>
+      <p>🔤 Total Characters Typed: ${typed.length}</p>
+    `;
+  }
+</script><script src="script.js"></script>
+</body>
+</html>
